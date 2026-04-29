@@ -1,0 +1,36 @@
+ARG DOTNET_VERSION=10.0
+# -------- base runtime --------
+FROM mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION} AS base
+WORKDIR /app
+EXPOSE 8080
+
+# ---------- build ----------
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION} AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+# скопировать файлы, которые управляют restore (чтобы улучшить кеш restore)
+COPY ./global.json ./
+COPY ./*.sln* ./
+COPY ./backend/PromoCodeFactory.Core/PromoCodeFactory.Core.csproj ./PromoCodeFactory.Core/
+COPY ./backend/PromoCodeFactory.DataAccess/PromoCodeFactory.DataAccess.csproj ./PromoCodeFactory.DataAccess/
+COPY ./backend/PromoCodeFactory.WebHost/PromoCodeFactory.WebHost.csproj ./PromoCodeFactory.WebHost/
+COPY ./backend/PromoCodeFactory.UnitTests/PromoCodeFactory.UnitTests.csproj ./PromoCodeFactory.UnitTests/
+
+RUN dotnet restore
+
+# теперь весь код
+COPY ./backend/PromoCodeFactory.Core/ ./PromoCodeFactory.Core/
+COPY ./backend/PromoCodeFactory.DataAccess/ ./PromoCodeFactory.DataAccess/
+COPY ./backend/PromoCodeFactory.WebHost/ ./PromoCodeFactory.WebHost/
+COPY ./backend/PromoCodeFactory.UnitTests/ ./PromoCodeFactory.UnitTests/
+
+RUN dotnet build -c $BUILD_CONFIGURATION --no-restore
+
+# ---------- publish ----------
+FROM build AS publish
+RUN dotnet publish ./PromoCodeFactory.WebHost/PromoCodeFactory.WebHost.csproj \
+    -c $BUILD_CONFIGURATION -o /app/publish --no-build --no-restore
+
+FROM base AS final
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "PromoCodeFactory.WebHost.dll"]
