@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 // Адрес backend
 const target = process.env.API_URL || 'http://localhost:8091';
@@ -14,5 +14,5 @@ export default defineConfig({
         secure: false
       }
     }
- }
-})
+  }
+});
