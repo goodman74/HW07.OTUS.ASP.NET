@@ -11,24 +11,24 @@ WORKDIR /src
 # скопировать файлы, которые управляют restore (чтобы улучшить кеш restore)
 COPY ./global.json ./
 COPY ./*.sln* ./
-COPY ./backend/PromoCodeFactory.Core/PromoCodeFactory.Core.csproj ./PromoCodeFactory.Core/
-COPY ./backend/PromoCodeFactory.DataAccess/PromoCodeFactory.DataAccess.csproj ./PromoCodeFactory.DataAccess/
-COPY ./backend/PromoCodeFactory.WebHost/PromoCodeFactory.WebHost.csproj ./PromoCodeFactory.WebHost/
-COPY ./backend/PromoCodeFactory.UnitTests/PromoCodeFactory.UnitTests.csproj ./PromoCodeFactory.UnitTests/
+COPY ./backend/PromoCodeFactory.Core/PromoCodeFactory.Core.csproj ./backend/PromoCodeFactory.Core/
+COPY ./backend/PromoCodeFactory.DataAccess/PromoCodeFactory.DataAccess.csproj ./backend/PromoCodeFactory.DataAccess/
+COPY ./backend/PromoCodeFactory.WebHost/PromoCodeFactory.WebHost.csproj ./backend/PromoCodeFactory.WebHost/
+COPY ./backend/PromoCodeFactory.UnitTests/PromoCodeFactory.UnitTests.csproj ./backend/PromoCodeFactory.UnitTests/
 
 RUN dotnet restore
 
 # теперь весь код
-COPY ./backend/PromoCodeFactory.Core/ ./PromoCodeFactory.Core/
-COPY ./backend/PromoCodeFactory.DataAccess/ ./PromoCodeFactory.DataAccess/
-COPY ./backend/PromoCodeFactory.WebHost/ ./PromoCodeFactory.WebHost/
-COPY ./backend/PromoCodeFactory.UnitTests/ ./PromoCodeFactory.UnitTests/
+COPY ./backend/PromoCodeFactory.Core/ ./backend/PromoCodeFactory.Core/
+COPY ./backend/PromoCodeFactory.DataAccess/ ./backend/PromoCodeFactory.DataAccess/
+COPY ./backend/PromoCodeFactory.WebHost/ ./backend/PromoCodeFactory.WebHost/
+COPY ./backend/PromoCodeFactory.UnitTests/ ./backend/PromoCodeFactory.UnitTests/
 
 RUN dotnet build -c $BUILD_CONFIGURATION --no-restore
 
 # ---------- publish ----------
 FROM build AS publish
-RUN dotnet publish ./PromoCodeFactory.WebHost/PromoCodeFactory.WebHost.csproj \
+RUN dotnet publish ./backend/PromoCodeFactory.WebHost/PromoCodeFactory.WebHost.csproj \
     -c $BUILD_CONFIGURATION -o /app/publish --no-build --no-restore
 
 FROM base AS final

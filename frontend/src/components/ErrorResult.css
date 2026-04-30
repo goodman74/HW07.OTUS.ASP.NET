@@ -1,0 +1,17 @@
+.errorBox {
+  background-color: #fee2e2;     /* светло-красный фон */
+  color: #991b1b;                /* тёмно-красный текст */
+  border: 1px solid #fca5a5;     /* мягкая рамка */
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.errorBox h2 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+
+.errorBox p {
+  margin: 0;
+  font-size: 14px;
+}
