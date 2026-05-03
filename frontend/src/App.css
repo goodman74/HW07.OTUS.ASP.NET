@@ -1,68 +1,84 @@
+/* app.css — Public Theme v0 (dark tech) */
 :root {
-  --bg-main: #0f1115;
-  --bg-surface: #1a1d24;
-  --bg-content: #14171c;
+  /* Background */
+  /* page base */
+  --pub-bg-0: #070A12;
+  /* gradient mid */
+  --pub-bg-1: #0B1220;
+  /* gradient bottom */
+  --pub-bg-2: #101B2E;
 
-  --text-main: #e6e6e6;
-  --text-muted: #9aa0a6;
+  --pub-surface-0: rgba(16, 27, 46, 0.85);
+  --pub-surface-headerMain: rgba(13, 27, 37, 0.88);
 }
 
-.layout-app {
+.layout-publicBg {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: var(--bg-main);
-  color: var(--text-main);
+  --app-shell-border-color: #0e6fe6;
+  background:
+    radial-gradient(1200px 800px at 70% 15%, rgba(122, 167, 255, 0.10), transparent 55%),
+    radial-gradient(900px 600px at 20% 80%, rgba(53, 196, 106, 0.08), transparent 60%),
+    linear-gradient(180deg, var(--pub-bg-0), var(--pub-bg-1) 45%, var(--pub-bg-2));
 }
 
-.layout-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  padding: 16px;
-  background: var(--bg-surface);
+.layout-publicBg>* {
+  position: relative;
+  /* Основной контент */
 }
 
-.layout-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Centered content container для страниц без специального layout */
+.layout-publicContainer {
+  margin: 0 auto;
+  padding: 24px;
 }
 
-.layout-links {
-  display: flex;
-  gap: 16px;
+@media (max-width: 1024px) {
+  .layout-publicContainer {
+    padding: 16px;
+  }
 }
 
-.layout-links a {
-  color: inherit;
-  text-decoration: none;
-  opacity: 0.8;
+.layout-publicHeader,
+.layout-publicFooter {
+  background: var(--pub-surface-0);
+  backdrop-filter: blur(10px);
 }
 
-.layout-links a:hover {
-  opacity: 1;
+/* =========================
+   Auth Modal — стили инпутов
+   ========================= */
+
+/* Приводим input к dark-style public theme:
+   Mantine по умолчанию не знает про наш Public Theme v0 */
+.input-field input {
+  background-color: var(--mantine-color-dark-5);
+  border-color: var(--pub-border);
+  color: var(--mantine-color-gray-2);
 }
 
-.layout-main {
-  flex: 1;
-  background: var(--bg-content);
+/* Резервируем место под текст ошибки,
+   чтобы layout не "прыгал" при появлении error */
+.input-field .mantine-InputWrapper-error {
+  min-height: 16px;
 }
 
-.layout-section {
-  padding: 16px 48px;
+/* Контролируем цвет placeholder в dark-UI:
+   дефолтный цвет Mantine/браузера плохо читается */
+.input-field input::placeholder {
+  color: var(--mantine-color-gray-5);
 }
 
-.layout-footer {
-  padding: 12px 16px;
-  background: var(--bg-surface);
-  color: var(--text-muted);
+/* Фикс Chrome/WebKit autofill:
+   браузер насильно красит autofill в жёлтый и ломает dark-UI.
+   Это стандартный приём (GitHub / Stripe / Notion используют то же самое). */
+.input-field input:-webkit-autofill,
+.input-field input:-webkit-autofill:hover,
+.input-field input:-webkit-autofill:focus,
+.input-field input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--mantine-color-gray-2);
+  caret-color: var(--mantine-color-gray-2);
+  -webkit-box-shadow: 0 0 0 1000px var(--mantine-color-dark-5) inset;
+  transition: background-color 9999s ease-out 0s;
 }
 
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 200px;
-  /* border: 2px solid red; */
-}
+/* border: 2px solid red; */
