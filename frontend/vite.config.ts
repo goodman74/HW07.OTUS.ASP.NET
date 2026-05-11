@@ -7,6 +7,8 @@ const target = process.env.API_URL || 'http://localhost:8091';
 export default defineConfig({
   plugins: [react()],
   server: {
+    host: "app.test.me",
+    port: 5173,
     proxy: {
       '/api': {
         target,

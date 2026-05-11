@@ -6,6 +6,7 @@ import type { UiState } from "../../common/types";
 import { PartnerSchema, type PartnerDto } from "../public/zodType";
 import { ResultBlock } from "../common/ResultBlock";
 import { SuccessResultPartnerLimit } from "./SuccessResultPartnerLimit";
+import { apiFetch } from "../../common/http";
 
 export function PartnerLimits() {
   const partnerId = useAppSelector(state => state.demoIdentity.partnerId);
@@ -22,7 +23,7 @@ export function PartnerLimits() {
         }
 
         const url = `/api/v1/partners/${encodeURIComponent(partnerId)}`;
-        const response = await fetch(url);
+        const response = await apiFetch(url);
 
         await sleep(500);
 

@@ -40,7 +40,6 @@ _ReSharper*/
 ### .NET / ASP.NET Core
 # Keep base appsettings.json in repo; ignore local/env-specific
 appsettings.Development.json
-.env
 
 # DP keys Api
 docker/dpkeys/*.xml

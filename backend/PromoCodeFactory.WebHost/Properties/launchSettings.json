@@ -1,14 +1,14 @@
 {
   "profiles": {
     "PromoCodeFactory.WebHost": {
-      "commandName": "Project",
-      "launchUrl": "swagger",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "applicationUrl": "https://localhost:8090;http://localhost:8091",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "commandName": "Project",
+        "launchUrl": "swagger",
+        "dotnetRunMessages": true,
+        "launchBrowser": true,
+        "applicationUrl": "https://api.test.me:8090;http://api.test.me:8091",
+        "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "Development"
+        }
     }
   }
 }
