@@ -13,12 +13,25 @@ builder.Services.AddControllers();
 
 builder.Services.AddOpenApi(builder.Environment);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+    {
+        policy
+            .WithOrigins("http://app.test.me:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 app.UseExceptionHandler();
 
 app.MapOpenApi();
 app.MapSwaggerUI();
+
+app.UseCors("Frontend");
 
 app.MapControllers();
 

@@ -5,6 +5,7 @@ import { Title,Text, Stack, Button } from "@mantine/core";
 import { sleep } from "../../common/tools";
 import type { UiState } from "../../common/types";
 import { SuccessResultCustomer, } from "./SuccessResultCustomer";
+import { apiFetch } from "../../common/http";
 
 const idGood = "a3f767aa-1918-4b0d-a3c9-37e5a0e5f3b2";
 const idBad = "a3f767aa-1918-4b0d-a3c9-37e5a0e5f3b3";
@@ -16,7 +17,7 @@ export function FetchApi() {
     setUiState({ kind: "loading" });
     try {
       const urlGetCustomerById = `/api/v1/customers/${encodeURIComponent(id)}`;
-      const response = await fetch(urlGetCustomerById);
+      const response = await apiFetch(urlGetCustomerById);
       await sleep(500);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
